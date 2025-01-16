@@ -54,18 +54,6 @@ passport.use(
   )
 );
 
-// Passport Cisco Strategy
-// Replace with your Cisco OAuth credentials
-const CLIENT_ID =
-  "Cfd64151986449f6289df8a359a3b7ad00c3116794b4f197d1b792d2cf8034541";
-const CLIENT_SECRET =
-  "971afa224e8f1779e26db1073a19d02f7f61f02514623d89e51227c66fbcb3d4";
-const CALLBACK_URL = "http://localhost:3000/auth/cisco/callback";
-const AUTHORIZATION_URL =
-  "https://webexapis.com/v1/authorize?client_id=Cfd64151986449f6289df8a359a3b7ad00c3116794b4f197d1b792d2cf8034541&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcisco%2Fcallback&scope=spark%3Akms%20spark%3Apeople_read&state=set_state_here";
-const TOKEN_URL = "https://idbroker.webex.com/idb/oauth2/v1/access_token";
-// const USER_INFO_URL = "https://webexapis.com/v1/people/me";
-// Cisco OAuth 2.0 Strategy Configuration
 // Webex OAuth 2.0 Strategy Configuration
 passport.use(
   "webex",
@@ -73,8 +61,8 @@ passport.use(
     {
       authorizationURL: "https://webexapis.com/v1/authorize",
       tokenURL: "https://webexapis.com/v1/access_token",
-      clientID: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
+      clientID: process.env.WEBEX_CLIENT_ID,
+      clientSecret: process.env.WEBEX_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/cisco/callback",
       scope: [
         "spark:people_read",
@@ -114,24 +102,7 @@ passport.use(
   )
 );
 
-// passport.use(
-//   new OAuth2Strategy(
-//     {
-//       authorizationURL: AUTHORIZATION_URL,
-//       tokenURL: TOKEN_URL,
-//       clientID: CLIENT_ID,
-//       clientSecret: CLIENT_SECRET,
-//       callbackURL: CALLBACK_URL,
-//     },
-//     (accessToken, refreshToken, profile, done) => {
-//       console.log('profile: ', profile);
-//       return done();
-//     }
-//   )
-// );
-
-// Serialize and deserialize user
-
+// Serialize and deserialize user for session
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
